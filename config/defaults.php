@@ -34,4 +34,7 @@ return [
 
     // Whether the box lists the individual bundled items with thumbnails.
     'show_items' => true,
+
+    // Whether the box shows the bundle total and the money saved (percentage mode).
+    'show_savings' => true,
 ];

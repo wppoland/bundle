@@ -73,6 +73,9 @@ final class Settings implements HasHooks
             <p>
                 <?php esc_html_e('Configure the "frequently bought together" bundle box. Link products and set a discount on each product in the product editor under the "Bundle" tab.', 'bundle'); ?>
             </p>
+            <p class="description">
+                <?php esc_html_e('Place the bundle box anywhere with the [bundle] shortcode, or [bundle id="123"] to target a specific product. Turn off "Show on product page" below to use the shortcode only.', 'bundle'); ?>
+            </p>
             <form method="post" action="options.php">
                 <?php settings_fields(self::PAGE); ?>
 
@@ -120,6 +123,21 @@ final class Settings implements HasHooks
                                         <?php checked((bool) ($settings['show_items'] ?? true), true); ?>
                                     />
                                     <?php esc_html_e('List the bundled products (with thumbnails) inside the box.', 'bundle'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php esc_html_e('Show savings', 'bundle'); ?></th>
+                            <td>
+                                <label for="bundle_show_savings">
+                                    <input
+                                        type="checkbox"
+                                        id="bundle_show_savings"
+                                        name="<?php echo esc_attr(self::OPTION); ?>[show_savings]"
+                                        value="1"
+                                        <?php checked((bool) ($settings['show_savings'] ?? true), true); ?>
+                                    />
+                                    <?php esc_html_e('Show the bundle total and the amount saved on the bundle box.', 'bundle'); ?>
                                 </label>
                             </td>
                         </tr>
@@ -223,6 +241,7 @@ final class Settings implements HasHooks
             'enabled'        => ! empty($raw['enabled']),
             'show_on_single' => ! empty($raw['show_on_single']),
             'show_items'     => ! empty($raw['show_items']),
+            'show_savings'   => ! empty($raw['show_savings']),
             'discount_mode'  => $mode,
             'box_title'      => $boxTitle !== '' ? $boxTitle : (string) ($defaults['box_title'] ?? __('Frequently bought together', 'bundle')),
             'add_label'      => $addLabel !== '' ? $addLabel : (string) ($defaults['add_label'] ?? __('Add bundle to cart', 'bundle')),

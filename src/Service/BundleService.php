@@ -28,6 +28,21 @@ final class BundleService implements HasHooks
     /** Product meta key holding the bundle definition (items + discount %). */
     public const META_BUNDLE = '_bundle_definition';
 
+    /** Request key carrying the product id on the add-bundle form. */
+    public const REQUEST_KEY = 'bundle_add';
+
+    /** Nonce action guarding the add-bundle request. */
+    public const NONCE_ACTION = 'bundle_add_bundle';
+
+    /** Cart-item flag marking a line as part of a bundle (parent product id). */
+    public const CART_FLAG = '_bundle_parent';
+
+    /** Bundle box template, relative to the templates/ directory. */
+    public const BOX_TEMPLATE = 'single-product/bundle-box';
+
+    /** Shortcode tag rendering a bundle box for a given (or current) product. */
+    public const SHORTCODE = 'bundle';
+
     private ?ProductBundleEngine $engine = null;
 
     public function __construct()
@@ -40,16 +55,11 @@ final class BundleService implements HasHooks
         }
 
         $this->engine = new ProductBundleEngine(
-            requestKey: 'bundle_add',
-            nonceAction: 'bundle_add_bundle',
-            cartFlag: '_bundle_parent',
-            boxTemplate: 'single-product/bundle-box',
-            labels: [
-                'box_title'  => __('Frequently bought together', 'bundle'),
-                'add_bundle' => __('Add bundle to cart', 'bundle'),
-                'fee_label'  => __('Bundle discount', 'bundle'),
-                'add_failed' => __('Some bundled products could not be added to the cart.', 'bundle'),
-            ],
+            requestKey: self::REQUEST_KEY,
+            nonceAction: self::NONCE_ACTION,
+            cartFlag: self::CART_FLAG,
+            boxTemplate: self::BOX_TEMPLATE,
+            labels: $this->labels(),
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),
             productMeta: fn (\WC_Product $product): mixed => $this->bundleMeta($product),
@@ -61,21 +71,21 @@ final class BundleService implements HasHooks
 
     public function registerHooks(): void
     {
-        if ($this->engine instanceof ProductBundleEngine) {
-            $this->engine->registerHooks();
-            add_action('wp_enqueue_scripts', [$this, 'enqueueAssets']);
-
+        if (! $this->engine instanceof ProductBundleEngine) {
+            // storefront-kit < 1.5.0 has no ProductBundleEngine. Bump the
+            // `wppoland/storefront-kit` constraint (composer update) to enable
+            // product bundles. No hooks are registered until the engine exists.
             return;
         }
 
-        // TODO: storefront-kit < 1.5.0 has no ProductBundleEngine. Bump the
-        // `wppoland/storefront-kit` constraint (composer update) to enable
-        // product bundles. No hooks are registered until the engine is present.
+        $this->engine->registerHooks();
+        add_action('wp_enqueue_scripts', [$this, 'enqueueAssets']);
+        add_shortcode(self::SHORTCODE, [$this, 'renderShortcode']);
     }
 
     public function enqueueAssets(): void
     {
-        if (! $this->isEnabled() || ! is_product()) {
+        if (! $this->isEnabled() || (! is_product() && ! $this->postHasShortcode())) {
             return;
         }
 
@@ -85,6 +95,109 @@ final class BundleService implements HasHooks
             [],
             \Bundle\VERSION,
         );
+    }
+
+    /**
+     * `[bundle]` / `[bundle id="123"]` — render a bundle box for the given
+     * product (defaults to the current product in the loop). Lets merchants
+     * place the box anywhere (page, post, block) rather than only after the
+     * product summary. Returns an empty string when the product has no bundle.
+     *
+     * @param array<string, mixed>|string $atts
+     */
+    public function renderShortcode(array|string $atts = []): string
+    {
+        if (! $this->engine instanceof ProductBundleEngine || ! $this->isEnabled()) {
+            return '';
+        }
+
+        $atts = shortcode_atts(['id' => 0], is_array($atts) ? $atts : [], self::SHORTCODE);
+        $productId = absint($atts['id']);
+
+        if ($productId === 0) {
+            $productId = (int) get_the_ID();
+        }
+
+        $product = $productId > 0 ? wc_get_product($productId) : null;
+
+        if (! $product instanceof \WC_Product) {
+            return '';
+        }
+
+        $bundle = $this->engine->getBundle($product);
+
+        if ($bundle['items'] === []) {
+            return '';
+        }
+
+        ob_start();
+        $this->renderTemplate(self::BOX_TEMPLATE, [
+            'product'     => $product,
+            'bundle'      => $bundle,
+            'action_url'  => $this->addUrl($product),
+            'nonce_field' => wp_create_nonce(self::NONCE_ACTION),
+            'request_key' => self::REQUEST_KEY,
+            'box_title'   => $this->labels()['box_title'],
+            'add_label'   => $this->labels()['add_bundle'],
+            'settings'    => $this->settings(),
+        ]);
+
+        return (string) ob_get_clean();
+    }
+
+    /**
+     * Build the add-bundle URL (carries the request key + a fresh nonce). Mirrors
+     * the engine's own action URL so the shortcode-rendered form posts the same
+     * way the auto-rendered box does.
+     */
+    private function addUrl(\WC_Product $product): string
+    {
+        return add_query_arg(
+            [
+                self::REQUEST_KEY => $product->get_id(),
+                '_wpnonce'        => wp_create_nonce(self::NONCE_ACTION),
+            ],
+            (string) $product->get_permalink(),
+        );
+    }
+
+    /**
+     * Whether the queried post embeds the `[bundle]` shortcode, so the stylesheet
+     * is enqueued on pages that place the box outside the product template.
+     */
+    private function postHasShortcode(): bool
+    {
+        $post = get_post();
+
+        return $post instanceof \WP_Post && has_shortcode((string) $post->post_content, self::SHORTCODE);
+    }
+
+    /**
+     * Localised fallback labels for the bundle box, falling back to the
+     * merchant's saved chrome where set.
+     *
+     * @return array{box_title: string, add_bundle: string, fee_label: string, add_failed: string}
+     */
+    private function labels(): array
+    {
+        $settings = $this->settings();
+
+        return [
+            'box_title'  => $this->label($settings, 'box_title', __('Frequently bought together', 'bundle')),
+            'add_bundle' => $this->label($settings, 'add_label', __('Add bundle to cart', 'bundle')),
+            'fee_label'  => $this->label($settings, 'fee_label', __('Bundle discount', 'bundle')),
+            'add_failed' => $this->label($settings, 'add_failed_text', __('Some bundled products could not be added to the cart.', 'bundle')),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $settings
+     */
+    private function label(array $settings, string $key, string $default): string
+    {
+        $value = isset($settings[$key]) ? trim((string) $settings[$key]) : '';
+
+        return $value !== '' ? $value : $default;
     }
 
     private function isEnabled(): bool

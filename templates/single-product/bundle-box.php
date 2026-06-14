@@ -25,8 +25,27 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-$bundle_show_items = (bool) ($settings['show_items'] ?? true);
-$bundle_percent    = (float) ($bundle['discount_percent'] ?? 0.0);
+$bundle_show_items   = (bool) ($settings['show_items'] ?? true);
+$bundle_show_savings = (bool) ($settings['show_savings'] ?? true);
+$bundle_percent      = (float) ($bundle['discount_percent'] ?? 0.0);
+
+// Total list price of the whole bundle (main product + every linked item that
+// still resolves to a purchasable product) and the money saved at the configured
+// percentage. Used for the optional "you save" line below.
+$bundle_total   = (float) $product->get_price('edit');
+$bundle_savings = 0.0;
+
+foreach ($bundle['items'] as $bundle_price_item_id) {
+    $bundle_price_item = wc_get_product($bundle_price_item_id);
+
+    if ($bundle_price_item instanceof \WC_Product) {
+        $bundle_total += (float) $bundle_price_item->get_price('edit');
+    }
+}
+
+if ($bundle_percent > 0.0) {
+    $bundle_savings = round($bundle_total * ($bundle_percent / 100), wc_get_price_decimals());
+}
 ?>
 <section class="bundle-box" aria-labelledby="bundle-box-title">
     <h2 id="bundle-box-title" class="bundle-box__title"><?php echo esc_html($box_title); ?></h2>
@@ -69,6 +88,19 @@ $bundle_percent    = (float) ($bundle['discount_percent'] ?? 0.0);
             );
             ?>
         </p>
+
+        <?php if ($bundle_show_savings && $bundle_savings > 0.0) : ?>
+            <p class="bundle-box__savings">
+                <?php
+                printf(
+                    /* translators: 1: total bundle price, 2: amount saved. */
+                    esc_html__('Bundle total %1$s — you save %2$s.', 'bundle'),
+                    wp_kses_post(wc_price($bundle_total)),
+                    wp_kses_post(wc_price($bundle_savings))
+                );
+                ?>
+            </p>
+        <?php endif; ?>
     <?php endif; ?>
 
     <form class="bundle-box__form" method="post" action="<?php echo esc_url($action_url); ?>">
