@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-14T10:34:14+00:00\n"
+"POT-Creation-Date: 2026-06-14T12:59:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: bundle\n"
@@ -43,42 +43,42 @@ msgstr ""
 msgid "Bundle – Product Bundles for WooCommerce requires WooCommerce to be active."
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:68
+#: src/Admin/ProductBundleBox.php:76
 #: src/Admin/Settings.php:40
 msgid "Bundle"
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:97
+#: src/Admin/ProductBundleBox.php:105
 msgid "Link the products that are usually bought together with this one. They appear in a \"frequently bought together\" box on this product's page, and shoppers can add the whole set to the cart in one click."
 msgstr ""
 
 #. translators: %s: "Products > All Products" admin breadcrumb.
-#: src/Admin/ProductBundleBox.php:102
+#: src/Admin/ProductBundleBox.php:110
 #, php-format
 msgid "Tip: the product ID is shown in the URL when you edit a product, and in the ID column under %s."
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:103
+#: src/Admin/ProductBundleBox.php:111
 msgid "Products"
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:109
+#: src/Admin/ProductBundleBox.php:117
 msgid "Bundled product IDs"
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:116
+#: src/Admin/ProductBundleBox.php:124
 msgid "e.g. 42, 108, 256"
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:122
+#: src/Admin/ProductBundleBox.php:130
 msgid "Comma-separated product IDs to sell alongside this product. Duplicates, blanks and this product's own ID are ignored automatically."
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:126
+#: src/Admin/ProductBundleBox.php:134
 msgid "Bundle discount (%)"
 msgstr ""
 
-#: src/Admin/ProductBundleBox.php:139
+#: src/Admin/ProductBundleBox.php:147
 msgid "Optional. The percentage off the combined price when the whole bundle is added to the cart. Leave at 0 for no discount (the box still cross-sells the items). Values are clamped to 0–100."
 msgstr ""
 
@@ -227,13 +227,13 @@ msgid "Some bundled products could not be added to the cart."
 msgstr ""
 
 #. translators: %s: discount percentage.
-#: templates/single-product/bundle-box.php:92
+#: templates/single-product/bundle-box.php:101
 #, php-format
 msgid "Buy together and save %s%%"
 msgstr ""
 
 #. translators: 1: total bundle price, 2: amount saved.
-#: templates/single-product/bundle-box.php:103
+#: templates/single-product/bundle-box.php:112
 #, php-format
 msgid "Bundle total <strong>%1$s</strong> — you save <strong>%2$s</strong>."
 msgstr ""
