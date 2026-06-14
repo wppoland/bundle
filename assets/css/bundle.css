@@ -1,24 +1,50 @@
-/* Bundle - "frequently bought together" box on the single product page. */
+/*
+ * Bundle — "frequently bought together" box on the single product page.
+ *
+ * CWV-native: every image reserves its space (aspect-ratio + width) so the box
+ * never shifts layout (no CLS) and there is no flash of unstyled content. All
+ * colours/spacing/radii are CSS custom properties so a theme can re-skin the box
+ * by overriding them. Dark mode and reduced-motion are respected.
+ */
 
 .bundle-box {
-	margin: 2.5rem 0;
-	padding: 1.5rem;
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	background: rgba(0, 0, 0, 0.02);
+	/* Themeable tokens — override any of these from a child theme to re-skin. */
+	--bundle-radius: 12px;
+	--bundle-radius-sm: 8px;
+	--bundle-gap: clamp(0.75rem, 0.4rem + 1.5vw, 1.25rem);
+	--bundle-pad: clamp(1rem, 0.6rem + 2vw, 1.75rem);
+	--bundle-border: rgba(0, 0, 0, 0.1);
+	--bundle-bg: rgba(0, 0, 0, 0.02);
+	--bundle-fg: inherit;
+	--bundle-muted: rgba(0, 0, 0, 0.6);
+	--bundle-accent: #16794b;
+	--bundle-accent-bg: rgba(22, 121, 75, 0.1);
+	--bundle-thumb: 96px;
+	--bundle-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
+
+	margin-block: clamp(1.75rem, 1rem + 3vw, 2.5rem);
+	padding: var(--bundle-pad);
+	border: 1px solid var(--bundle-border);
+	border-radius: var(--bundle-radius);
+	background: var(--bundle-bg);
+	color: var(--bundle-fg);
+	box-shadow: var(--bundle-shadow);
 }
 
 .bundle-box__title {
-	margin: 0 0 1rem;
-	font-size: 1.15rem;
+	margin-block: 0 var(--bundle-gap);
+	margin-inline: 0;
+	font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+	font-weight: 700;
+	line-height: 1.25;
 }
 
 .bundle-box__items {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1rem;
+	gap: var(--bundle-gap);
 	align-items: flex-start;
-	margin: 0 0 1rem;
+	margin: 0 0 var(--bundle-gap);
 	padding: 0;
 	list-style: none;
 }
@@ -28,41 +54,124 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 120px;
+	inline-size: var(--bundle-thumb);
 	text-align: center;
 }
 
 .bundle-box__item img {
-	width: 100%;
-	height: auto;
-	border-radius: 4px;
+	/* Reserve the thumbnail box up front so the image load causes no shift. */
+	inline-size: 100%;
+	block-size: auto;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: var(--bundle-radius-sm);
+	background: var(--bundle-border);
 }
 
 .bundle-box__item-name {
-	margin-top: 0.4rem;
+	margin-block-start: 0.45rem;
 	font-size: 0.85rem;
-	line-height: 1.25;
+	line-height: 1.3;
 }
 
 .bundle-box__item-price {
-	font-size: 0.85rem;
-	opacity: 0.8;
+	margin-block-start: 0.15rem;
+	font-size: 0.82rem;
+	color: var(--bundle-muted);
 }
 
 .bundle-box__plus {
 	position: absolute;
-	top: 40%;
-	left: -0.85rem;
-	font-size: 1.25rem;
+	inset-block-start: calc(var(--bundle-thumb) / 2 - 0.7rem);
+	inset-inline-start: calc(var(--bundle-gap) / -2 - 0.45rem);
+	display: grid;
+	place-items: center;
+	inline-size: 1.4rem;
+	block-size: 1.4rem;
+	font-size: 1.1rem;
 	font-weight: 700;
 	line-height: 1;
+	color: var(--bundle-muted);
 }
 
 .bundle-box__discount {
-	margin: 0 0 1rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin: 0 0 0.6rem;
+	padding-block: 0.3rem;
+	padding-inline: 0.65rem;
+	border-radius: 999px;
+	background: var(--bundle-accent-bg);
+	color: var(--bundle-accent);
 	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.bundle-box__savings {
+	margin: 0 0 var(--bundle-gap);
+	color: var(--bundle-muted);
+	font-size: 0.92rem;
+}
+
+.bundle-box__savings strong {
+	color: var(--bundle-fg);
+}
+
+.bundle-box__empty {
+	margin: 0;
+	color: var(--bundle-muted);
+	font-size: 0.92rem;
 }
 
 .bundle-box__form {
 	margin: 0;
+}
+
+.bundle-box__add {
+	/* Inherit the theme button look; just guarantee a comfortable hit area. */
+	min-block-size: 2.75rem;
+	padding-inline: clamp(1rem, 0.7rem + 1.5vw, 1.75rem);
+	transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.bundle-box__add:hover {
+	filter: brightness(1.05);
+}
+
+.bundle-box__add:active {
+	transform: translateY(1px);
+}
+
+.bundle-box__add:focus-visible {
+	outline: 2px solid var(--bundle-accent);
+	outline-offset: 2px;
+}
+
+/* Progressive enhancement: tighten the plus marker only where :has is supported. */
+@supports selector(:has(*)) {
+	.bundle-box__items:has(.bundle-box__item:nth-child(n + 5)) {
+		row-gap: calc(var(--bundle-gap) * 1.25);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.bundle-box {
+		--bundle-border: rgba(255, 255, 255, 0.14);
+		--bundle-bg: rgba(255, 255, 255, 0.03);
+		--bundle-muted: rgba(255, 255, 255, 0.6);
+		--bundle-accent: #4ade80;
+		--bundle-accent-bg: rgba(74, 222, 128, 0.14);
+		--bundle-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bundle-box__add {
+		transition: none;
+	}
+
+	.bundle-box__add:active {
+		transform: none;
+	}
 }

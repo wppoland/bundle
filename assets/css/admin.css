@@ -1,0 +1,139 @@
+/*
+ * Bundle — admin settings page polish.
+ *
+ * Lightweight, dependency-free styling layered over the standard WordPress
+ * settings UI: a tidy card, accessible "?" help affordances backed by the
+ * native Popover API, and a small product-data panel hint. Respects the admin
+ * colour scheme via WordPress' own --wp-admin-theme-color where available, plus
+ * dark mode and reduced motion.
+ */
+
+.bundle-settings {
+	--bundle-admin-radius: 10px;
+	--bundle-admin-accent: var(--wp-admin-theme-color, #2271b1);
+	max-inline-size: 820px;
+}
+
+.bundle-settings__card {
+	margin-block-start: 1rem;
+	padding: clamp(1rem, 0.6rem + 1.5vw, 1.75rem);
+	border: 1px solid #dcdcde;
+	border-radius: var(--bundle-admin-radius);
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.bundle-settings__card .form-table th {
+	inline-size: 220px;
+}
+
+.bundle-settings__intro {
+	max-inline-size: 70ch;
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+.bundle-settings__intro code {
+	padding-block: 0.1em;
+	padding-inline: 0.4em;
+	border-radius: 4px;
+	background: rgba(0, 0, 0, 0.06);
+	font-size: 0.9em;
+}
+
+/* "?" help affordance — a real button so it is keyboard operable. */
+.bundle-help {
+	display: inline-grid;
+	place-items: center;
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+	margin-inline-start: 0.4rem;
+	padding: 0;
+	border: 1px solid var(--bundle-admin-accent);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--bundle-admin-accent);
+	font-size: 0.75rem;
+	font-weight: 700;
+	line-height: 1;
+	cursor: help;
+	vertical-align: middle;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bundle-help:hover,
+.bundle-help:focus-visible {
+	background: var(--bundle-admin-accent);
+	color: #fff;
+}
+
+.bundle-help:focus-visible {
+	outline: 2px solid var(--bundle-admin-accent);
+	outline-offset: 2px;
+}
+
+/* Popover help bubble (native [popover]; falls back to a plain visible block). */
+.bundle-help-pop {
+	max-inline-size: 320px;
+	margin: 0;
+	padding: 0.75rem 0.9rem;
+	border: 1px solid #c3c4c7;
+	border-radius: 8px;
+	background: #1d2327;
+	color: #f0f0f1;
+	font-size: 0.85rem;
+	line-height: 1.5;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.bundle-help-pop:popover-open {
+	/* Positioned in JS relative to its trigger via the Popover API. */
+	position: fixed;
+}
+
+/* Fallback for browsers without the Popover API: JS toggles .is-open. */
+.bundle-help-pop.is-open {
+	position: absolute;
+	z-index: 100;
+	display: block;
+}
+
+/* Product-data panel fields. */
+.bundle-field input.long {
+	inline-size: 100%;
+	max-inline-size: 24rem;
+}
+
+.bundle-field .description {
+	display: block;
+	margin-block-start: 0.35rem;
+	max-inline-size: 36rem;
+	color: #646970;
+}
+
+/* Product-data panel hint. */
+.bundle-panel-hint {
+	margin: 0.5rem 12px 0;
+	padding: 0.6rem 0.8rem;
+	border-inline-start: 3px solid var(--bundle-admin-accent);
+	background: rgba(34, 113, 177, 0.06);
+	font-size: 0.85rem;
+	line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+	.bundle-settings__card {
+		border-color: #3c434a;
+		background: #1d2327;
+	}
+
+	.bundle-settings__intro code {
+		background: rgba(255, 255, 255, 0.1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bundle-help {
+		transition: none;
+	}
+}

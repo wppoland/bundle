@@ -29,23 +29,32 @@ $bundle_show_items   = (bool) ($settings['show_items'] ?? true);
 $bundle_show_savings = (bool) ($settings['show_savings'] ?? true);
 $bundle_percent      = (float) ($bundle['discount_percent'] ?? 0.0);
 
-// Total list price of the whole bundle (main product + every linked item that
-// still resolves to a purchasable product) and the money saved at the configured
-// percentage. Used for the optional "you save" line below.
+// Resolve every linked item once. Missing/deleted products are skipped so the
+// box never renders a broken thumbnail or a dangling row. We also tally the
+// combined list price (main product + each resolvable item) for the savings line.
+$bundle_items   = [];
 $bundle_total   = (float) $product->get_price('edit');
-$bundle_savings = 0.0;
 
-foreach ($bundle['items'] as $bundle_price_item_id) {
-    $bundle_price_item = wc_get_product($bundle_price_item_id);
+foreach ((array) ($bundle['items'] ?? []) as $bundle_item_id) {
+    $bundle_item = wc_get_product((int) $bundle_item_id);
 
-    if ($bundle_price_item instanceof \WC_Product) {
-        $bundle_total += (float) $bundle_price_item->get_price('edit');
+    if (! $bundle_item instanceof \WC_Product) {
+        continue;
     }
+
+    $bundle_items[] = $bundle_item;
+    $bundle_total  += (float) $bundle_item->get_price('edit');
 }
 
-if ($bundle_percent > 0.0) {
-    $bundle_savings = round($bundle_total * ($bundle_percent / 100), wc_get_price_decimals());
+// Nothing resolvable to bundle with — render nothing rather than a lone product
+// with an "Add bundle" button that would behave like a normal add-to-cart.
+if ($bundle_items === []) {
+    return;
 }
+
+$bundle_savings = $bundle_percent > 0.0
+    ? round($bundle_total * ($bundle_percent / 100), wc_get_price_decimals())
+    : 0.0;
 ?>
 <section class="bundle-box" aria-labelledby="bundle-box-title">
     <h2 id="bundle-box-title" class="bundle-box__title"><?php echo esc_html($box_title); ?></h2>
@@ -56,23 +65,19 @@ if ($bundle_percent > 0.0) {
                 <?php echo wp_kses_post($product->get_image('woocommerce_gallery_thumbnail')); ?>
                 <span class="bundle-box__item-name"><?php echo esc_html($product->get_name()); ?></span>
             </li>
-            <?php
-            foreach ($bundle['items'] as $bundle_item_id) :
-                $bundle_item = wc_get_product($bundle_item_id);
-
-                if (! $bundle_item instanceof \WC_Product) :
-                    continue;
-                endif;
-                ?>
+            <?php foreach ($bundle_items as $bundle_item) : ?>
                 <li class="bundle-box__item">
                     <span class="bundle-box__plus" aria-hidden="true">+</span>
                     <?php echo wp_kses_post($bundle_item->get_image('woocommerce_gallery_thumbnail')); ?>
                     <span class="bundle-box__item-name">
                         <?php echo esc_html($bundle_item->get_name()); ?>
                     </span>
-                    <span class="bundle-box__item-price">
-                        <?php echo wp_kses_post($bundle_item->get_price_html()); ?>
-                    </span>
+                    <?php $bundle_item_price = $bundle_item->get_price_html(); ?>
+                    <?php if (is_string($bundle_item_price) && $bundle_item_price !== '') : ?>
+                        <span class="bundle-box__item-price">
+                            <?php echo wp_kses_post($bundle_item_price); ?>
+                        </span>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -80,10 +85,11 @@ if ($bundle_percent > 0.0) {
 
     <?php if ($bundle_percent > 0.0) : ?>
         <p class="bundle-box__discount">
+            <span aria-hidden="true">&#10022;</span>
             <?php
             printf(
                 /* translators: %s: discount percentage. */
-                esc_html__('Buy together and save %s%%.', 'bundle'),
+                esc_html__('Buy together and save %s%%', 'bundle'),
                 esc_html(wc_format_localized_decimal($bundle_percent))
             );
             ?>
@@ -94,7 +100,7 @@ if ($bundle_percent > 0.0) {
                 <?php
                 printf(
                     /* translators: 1: total bundle price, 2: amount saved. */
-                    esc_html__('Bundle total %1$s — you save %2$s.', 'bundle'),
+                    wp_kses_post(__('Bundle total <strong>%1$s</strong> — you save <strong>%2$s</strong>.', 'bundle')),
                     wp_kses_post(wc_price($bundle_total)),
                     wp_kses_post(wc_price($bundle_savings))
                 );
