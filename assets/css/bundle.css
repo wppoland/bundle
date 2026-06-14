@@ -1,0 +1,68 @@
+/* Bundle - "frequently bought together" box on the single product page. */
+
+.bundle-box {
+	margin: 2.5rem 0;
+	padding: 1.5rem;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	background: rgba(0, 0, 0, 0.02);
+}
+
+.bundle-box__title {
+	margin: 0 0 1rem;
+	font-size: 1.15rem;
+}
+
+.bundle-box__items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	align-items: flex-start;
+	margin: 0 0 1rem;
+	padding: 0;
+	list-style: none;
+}
+
+.bundle-box__item {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 120px;
+	text-align: center;
+}
+
+.bundle-box__item img {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+
+.bundle-box__item-name {
+	margin-top: 0.4rem;
+	font-size: 0.85rem;
+	line-height: 1.25;
+}
+
+.bundle-box__item-price {
+	font-size: 0.85rem;
+	opacity: 0.8;
+}
+
+.bundle-box__plus {
+	position: absolute;
+	top: 40%;
+	left: -0.85rem;
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.bundle-box__discount {
+	margin: 0 0 1rem;
+	font-weight: 600;
+}
+
+.bundle-box__form {
+	margin: 0;
+}
