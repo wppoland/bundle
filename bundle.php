@@ -50,6 +50,7 @@ add_action('plugins_loaded', static function (): void {
         return;
     }
 
-    Plugin::instance()->boot();
-    do_action('bundle/booted', Plugin::instance());
-});
+    add_action('init', static function (): void {
+        Plugin::instance()->boot();
+    }, 0);
+}, 10);
