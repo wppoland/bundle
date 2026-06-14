@@ -35,8 +35,17 @@ $bundle_percent      = (float) ($bundle['discount_percent'] ?? 0.0);
 $bundle_items   = [];
 $bundle_total   = (float) $product->get_price('edit');
 
-foreach ((array) ($bundle['items'] ?? []) as $bundle_item_id) {
-    $bundle_item = wc_get_product((int) $bundle_item_id);
+// Prime the post + meta caches for every linked id in a single pair of queries
+// so the wc_get_product() calls below (and the thumbnails they render) are cache
+// hits rather than one query per item (no N+1 on the storefront).
+$bundle_item_ids = array_values(array_filter(array_map('absint', (array) ($bundle['items'] ?? []))));
+
+if ($bundle_item_ids !== [] && function_exists('_prime_post_caches')) {
+    _prime_post_caches($bundle_item_ids, false, true);
+}
+
+foreach ($bundle_item_ids as $bundle_item_id) {
+    $bundle_item = wc_get_product($bundle_item_id);
 
     if (! $bundle_item instanceof \WC_Product) {
         continue;

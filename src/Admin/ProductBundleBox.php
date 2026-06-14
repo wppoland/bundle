@@ -24,6 +24,14 @@ final class ProductBundleBox implements HasHooks
     private const NONCE_ACTION = 'bundle_save_definition';
     private const NONCE_FIELD  = 'bundle_definition_nonce';
 
+    /**
+     * Hard cap on bundled items per product. Bounds the per-request work the
+     * storefront box and the one-click add-to-cart do (each item is a product
+     * load + a cart add), so a pasted list of thousands of IDs cannot turn a
+     * single product page or "add bundle" click into a denial-of-service.
+     */
+    private const MAX_ITEMS = 50;
+
     public function registerHooks(): void
     {
         add_action('woocommerce_product_data_panels', [$this, 'renderPanel']);
@@ -175,6 +183,10 @@ final class ProductBundleBox implements HasHooks
 
             if ($itemId > 0 && $itemId !== $postId && ! in_array($itemId, $items, true)) {
                 $items[] = $itemId;
+            }
+
+            if (count($items) >= self::MAX_ITEMS) {
+                break;
             }
         }
 
