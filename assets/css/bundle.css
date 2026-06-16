@@ -1,6 +1,12 @@
 /*
  * Bundle — "frequently bought together" box on the single product page.
  *
+ * World: a bundle is a parcel tied with twine. The items are strung on one
+ * connecting thread (the "+" markers are twine knots), and the combined saving
+ * is the payoff — rendered as a die-cut paper price tag with a punched hole and
+ * a dashed tear edge. The tag is the one moment that matters: it settles with a
+ * single hanging swing on load (reduced-motion honoured).
+ *
  * CWV-native: every image reserves its space (aspect-ratio + width) so the box
  * never shifts layout (no CLS) and there is no flash of unstyled content. All
  * colours/spacing/radii are CSS custom properties so a theme can re-skin the box
@@ -8,19 +14,26 @@
  */
 
 .bundle-box {
-	/* Themeable tokens — override any of these from a child theme to re-skin. */
+	/*
+	 * Themeable tokens — override any of these from a child theme to re-skin.
+	 * Accent is grounded in the parcel world: warm twine amber over deep ink,
+	 * deliberately NOT a generic e-commerce green or default blue.
+	 */
 	--bundle-radius: 12px;
 	--bundle-radius-sm: 8px;
 	--bundle-gap: clamp(0.75rem, 0.4rem + 1.5vw, 1.25rem);
 	--bundle-pad: clamp(1rem, 0.6rem + 2vw, 1.75rem);
-	--bundle-border: rgba(0, 0, 0, 0.1);
-	--bundle-bg: rgba(0, 0, 0, 0.02);
+	--bundle-border: rgba(43, 32, 20, 0.12);
+	--bundle-bg: rgba(173, 122, 58, 0.04);
 	--bundle-fg: inherit;
-	--bundle-muted: rgba(0, 0, 0, 0.6);
-	--bundle-accent: #16794b;
-	--bundle-accent-bg: rgba(22, 121, 75, 0.1);
+	--bundle-muted: rgba(43, 32, 20, 0.62);
+	--bundle-accent: #ad7a3a;          /* parcel twine — warm tan/amber */
+	--bundle-accent-ink: #5a3d18;      /* burnt-cord ink for tag text   */
+	--bundle-accent-bg: rgba(173, 122, 58, 0.12);
+	--bundle-twine: rgba(173, 122, 58, 0.55);
+	--bundle-tag-paper: #f7efe0;       /* die-cut kraft paper tag       */
 	--bundle-thumb: 96px;
-	--bundle-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
+	--bundle-shadow: 0 1px 2px rgba(43, 32, 20, 0.05), 0 4px 16px rgba(43, 32, 20, 0.08);
 
 	margin-block: clamp(1.75rem, 1rem + 3vw, 2.5rem);
 	padding: var(--bundle-pad);
@@ -40,6 +53,7 @@
 }
 
 .bundle-box__items {
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--bundle-gap);
@@ -51,6 +65,7 @@
 
 .bundle-box__item {
 	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -66,6 +81,8 @@
 	object-fit: cover;
 	border-radius: var(--bundle-radius-sm);
 	background: var(--bundle-border);
+	/* Lift each thumbnail off the twine so the thread reads as passing behind. */
+	box-shadow: 0 0 0 4px var(--bundle-bg), 0 1px 3px rgba(43, 32, 20, 0.12);
 }
 
 .bundle-box__item-name {
@@ -80,32 +97,103 @@
 	color: var(--bundle-muted);
 }
 
+/*
+ * Twine knot: where each item joins the thread. A small round bead tied onto the
+ * line, replacing the bare "+" glyph so the join reads as a physical tie. The
+ * glyph itself is hidden but kept in the DOM for assistive tech.
+ */
 .bundle-box__plus {
 	position: absolute;
-	inset-block-start: calc(var(--bundle-thumb) / 2 - 0.7rem);
+	inset-block-start: calc(var(--bundle-thumb) / 2 - 0.45rem);
 	inset-inline-start: calc(var(--bundle-gap) / -2 - 0.45rem);
 	display: grid;
 	place-items: center;
-	inline-size: 1.4rem;
-	block-size: 1.4rem;
-	font-size: 1.1rem;
-	font-weight: 700;
+	inline-size: 0.9rem;
+	block-size: 0.9rem;
+	font-size: 0;
 	line-height: 1;
-	color: var(--bundle-muted);
+	color: transparent;
+	background: var(--bundle-accent);
+	border-radius: 50%;
+	box-shadow:
+		0 0 0 3px var(--bundle-bg),
+		inset 0 1px 1px rgba(255, 255, 255, 0.45),
+		inset 0 -1px 1px rgba(43, 32, 20, 0.25);
 }
 
+/*
+ * The twine segment strung from each knot back to the previous thumbnail, so the
+ * products read as one bound parcel. Lives on the knot, so it spans exactly the
+ * real joins and vanishes cleanly when an item wraps to the next line — no
+ * full-width line overshooting past the last thumbnail.
+ */
+.bundle-box__plus::before {
+	content: "";
+	position: absolute;
+	inset-inline-end: 100%;
+	inset-block-start: 50%;
+	inline-size: calc(var(--bundle-gap) - 0.1rem);
+	block-size: 2px;
+	margin-block-start: -1px;
+	background:
+		repeating-linear-gradient(
+			90deg,
+			var(--bundle-twine) 0 5px,
+			transparent 5px 9px
+		);
+	pointer-events: none;
+}
+
+/*
+ * THE MOMENT — the combined saving as a die-cut paper price tag.
+ * Punched hole + threaded twine loop on top, dashed tear edge down the right,
+ * kraft paper fill. This is the payoff of buying the kit, given physical form.
+ */
 .bundle-box__discount {
+	position: relative;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.4rem;
-	margin: 0 0 0.6rem;
-	padding-block: 0.3rem;
-	padding-inline: 0.65rem;
-	border-radius: 999px;
-	background: var(--bundle-accent-bg);
+	gap: 0.45rem;
+	margin: 0.4rem 0 0.85rem;
+	padding-block: 0.45rem;
+	padding-inline: 1.5rem 1.05rem; /* room on the left for the punched hole */
+	background: var(--bundle-tag-paper);
+	color: var(--bundle-accent-ink);
+	font-weight: 700;
+	font-size: 0.92rem;
+	letter-spacing: 0.005em;
+	border: 1px solid var(--bundle-accent);
+	/* Notched left corner so it reads as a hang tag, not a generic pill. */
+	border-start-start-radius: 4px;
+	border-end-start-radius: 4px;
+	border-start-end-radius: 4px;
+	border-end-end-radius: 4px;
+	clip-path: polygon(
+		0.9rem 0, 100% 0, 100% 100%, 0.9rem 100%, 0 50%
+	);
+	/* Single hanging settle on load — the tag drops onto its string. */
+	transform-origin: 1.1rem -0.6rem;
+	animation: bundle-tag-settle 0.9s cubic-bezier(0.2, 0.85, 0.3, 1) both;
+}
+
+/* The punched hole the twine threads through. */
+.bundle-box__discount::before {
+	content: "";
+	position: absolute;
+	inset-block-start: 50%;
+	inset-inline-start: 0.62rem;
+	inline-size: 0.4rem;
+	block-size: 0.4rem;
+	margin-block-start: -0.2rem;
+	border-radius: 50%;
+	background: var(--bundle-bg);
+	box-shadow: inset 0 0 0 1px var(--bundle-accent);
+}
+
+/* The leading glyph (✦) — recoloured to twine, sized as a small mark. */
+.bundle-box__discount > [aria-hidden] {
+	font-size: 0.85em;
 	color: var(--bundle-accent);
-	font-weight: 600;
-	font-size: 0.9rem;
 }
 
 .bundle-box__savings {
@@ -115,7 +203,7 @@
 }
 
 .bundle-box__savings strong {
-	color: var(--bundle-fg);
+	color: var(--bundle-accent-ink);
 }
 
 .bundle-box__empty {
@@ -148,6 +236,13 @@
 	outline-offset: 2px;
 }
 
+@keyframes bundle-tag-settle {
+	0%   { transform: rotate(-7deg) translateY(-2px); opacity: 0; }
+	55%  { transform: rotate(3.5deg); opacity: 1; }
+	80%  { transform: rotate(-1.5deg); }
+	100% { transform: rotate(0); opacity: 1; }
+}
+
 /* Progressive enhancement: tighten the plus marker only where :has is supported. */
 @supports selector(:has(*)) {
 	.bundle-box__items:has(.bundle-box__item:nth-child(n + 5)) {
@@ -159,14 +254,25 @@
 	.bundle-box {
 		--bundle-border: rgba(255, 255, 255, 0.14);
 		--bundle-bg: rgba(255, 255, 255, 0.03);
-		--bundle-muted: rgba(255, 255, 255, 0.6);
-		--bundle-accent: #4ade80;
-		--bundle-accent-bg: rgba(74, 222, 128, 0.14);
+		--bundle-muted: rgba(255, 255, 255, 0.62);
+		--bundle-accent: #d6a55c;          /* twine warms up against dark */
+		--bundle-accent-ink: #2b2014;
+		--bundle-accent-bg: rgba(214, 165, 92, 0.16);
+		--bundle-twine: rgba(214, 165, 92, 0.5);
+		--bundle-tag-paper: #ead9bc;
 		--bundle-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
+	}
+
+	.bundle-box__savings strong {
+		color: #f3e6cc;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.bundle-box__discount {
+		animation: none;
+	}
+
 	.bundle-box__add {
 		transition: none;
 	}
