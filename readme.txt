@@ -1,6 +1,6 @@
 === Bundle – Product Bundles for WooCommerce ===
 Contributors: wppoland
-Tags: woocommerce, product bundles, frequently bought together, upsell, discount
+Tags: woocommerce, product bundles, frequently bought together, bundle discount, upsell
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
@@ -9,11 +9,11 @@ Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Sell groups of products together as a bundle with an optional bundle discount.
+Sell product bundles and frequently bought together offers with an optional WooCommerce bundle discount.
 
 == Description ==
 
-Bundle adds a "frequently bought together" box to your WooCommerce product pages. Link any number of products to a product, set an optional bundle discount, and let customers add the whole bundle to the cart in one click.
+Bundle adds a "frequently bought together" product bundle box to your WooCommerce product pages. Link any number of products to a product, set an optional bundle discount, and let customers add the whole product set to the cart in one click.
 
 * A bundle box under the product summary that lists the bundled products.
 * "Add bundle to cart" adds the main product plus every linked item at once.
@@ -47,6 +47,14 @@ Yes. WooCommerce must be installed and active.
 
 Choose between a single negative cart fee (one line in the cart) or a per-item price adjustment on each bundled product. Set this under WooCommerce → Bundle.
 
+= Can a bundle include a discount? =
+
+Yes. Set an optional percentage discount per product bundle. Bundle can show the bundle total and savings line before add to cart.
+
+= Does the bundle add all products to the cart? =
+
+Yes. The "Add bundle to cart" button adds the main product and linked products together.
+
 = Does it create custom database tables? =
 
 No. Bundle definitions are stored as product meta.
@@ -55,9 +63,9 @@ No. Bundle definitions are stored as product meta.
 
 Yes. Use the `[bundle]` shortcode anywhere the current product is known, or `[bundle id="123"]` to render a specific product's bundle. Turn off "Show on product page" under WooCommerce → Bundle to use the shortcode only.
 
-= What happens when I delete the plugin? =
+= Does Bundle use JavaScript on the storefront? =
 
-Bundle removes its settings option and every stored bundle definition on uninstall, leaving no leftover data.
+No. The free bundle box is server-rendered with one small stylesheet and no storefront JavaScript.
 
 == Screenshots ==
 
