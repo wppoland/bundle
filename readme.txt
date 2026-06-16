@@ -23,10 +23,12 @@ Bundle adds a "frequently bought together" box to your WooCommerce product pages
 * Editable box title, button label and discount-line label, all translatable.
 * Bundle definitions are stored as product meta — no custom database tables.
 * Clean uninstall: removes its options and bundle definitions when deleted.
-* Lightweight, accessible markup with a small, themeable stylesheet — dark-mode aware, no layout shift, no jQuery.
-* Helpful inline tips on every setting and clear empty states throughout.
+* One small stylesheet, no JavaScript on the storefront and no jQuery. Images reserve their space so the box does not shift the layout as it loads, and it follows the visitor's dark-mode preference.
+* A "?" help bubble on every setting, reachable by keyboard, plus the box hides itself when a product has no bundle left to show.
 
 Configure global behaviour under WooCommerce → Bundle. Link products and set the discount per product in the product editor's "Bundle" tab. Turn off "Show on product page" to render the box only where you drop the `[bundle]` shortcode.
+
+The plugin is developed in the open. Code, bug reports and patches live at https://github.com/wppoland/bundle.
 
 == Installation ==
 
@@ -64,10 +66,10 @@ Bundle removes its settings option and every stored bundle definition on uninsta
 == Changelog ==
 
 = 0.2.0 =
-* Polish: refreshed settings page with a clean card layout and an accessible "?" help bubble on every option.
-* Polish: modern, themeable storefront box — fluid sizing, dark-mode support, reserved image space (no layout shift) and a clearer savings badge.
-* A11y: keyboard-operable help affordances, visible focus styles and reduced-motion support throughout.
-* Robustness: deleted or missing bundled products are skipped gracefully; the box hides itself when nothing remains to bundle.
+* Settings page laid out as cards, with a "?" help bubble explaining each option.
+* Storefront box restyled: fluid sizing, dark-mode support, reserved image space so it does not shift the layout, and a savings line that spells out the amount saved.
+* Accessibility: keyboard-operable help bubbles, visible focus styles and reduced-motion support.
+* Deleted or missing bundled products are skipped, and the box hides itself when nothing is left to bundle.
 * New: `[bundle]` shortcode to render the bundle box anywhere, with an optional `id` attribute to target a specific product.
 * New: "Show savings" option that displays the bundle total and the amount saved on the box.
 * New: the admin-saved box title, button label and discount-line label are now used by the bundle box (previously the box ignored them).
