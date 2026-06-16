@@ -2,15 +2,25 @@
  * Bundle — admin settings page polish.
  *
  * Lightweight, dependency-free styling layered over the standard WordPress
- * settings UI: a tidy card, accessible "?" help affordances backed by the
- * native Popover API, and a small product-data panel hint. Respects the admin
- * colour scheme via WordPress' own --wp-admin-theme-color where available, plus
- * dark mode and reduced motion.
+ * settings UI: clearly headed sections within a tidy card, accessible "?" help
+ * affordances backed by the native Popover API, and a small product-data panel
+ * hint. The accent is the storefront "parcel twine" amber, carried into admin
+ * for brand family consistency (contrast-checked below). Honours dark mode and
+ * reduced motion.
  */
 
 .bundle-settings {
 	--bundle-admin-radius: 10px;
-	--bundle-admin-accent: var(--wp-admin-theme-color, #2271b1);
+	/*
+	 * Family accent: the storefront "parcel twine" amber, computed against the
+	 * wp-admin surfaces (#fff / #f0f0f1):
+	 *   --bundle-admin-accent      #8a5e26 — text/glyph use: 5.66:1 on #fff,
+	 *                                        4.97:1 on #f0f0f1 (passes AA text).
+	 *   --bundle-admin-accent-bar  #ad7a3a — non-text section marker only:
+	 *                                        3.74:1 on #fff (passes 3:1 UI).
+	 */
+	--bundle-admin-accent: #8a5e26;
+	--bundle-admin-accent-bar: #ad7a3a;
 	max-inline-size: 820px;
 }
 
@@ -21,6 +31,35 @@
 	border-radius: var(--bundle-admin-radius);
 	background: #fff;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Logical groups within the card, each with a real heading. */
+.bundle-section + .bundle-section {
+	margin-block-start: 1.75rem;
+	padding-block-start: 1.5rem;
+	border-block-start: 1px solid #e3e3e6;
+}
+
+.bundle-section__title {
+	margin: 0;
+	padding-block-end: 0.3rem;
+	border-block-end: 2px solid var(--bundle-admin-accent-bar);
+	font-size: 1.05rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #1d2327;
+}
+
+.bundle-section__desc {
+	margin-block: 0.5rem 0;
+	max-inline-size: 70ch;
+	color: #50575e;
+	font-size: 0.9rem;
+	line-height: 1.5;
+}
+
+.bundle-settings__card .form-table {
+	margin-block-start: 0.25rem;
 }
 
 .bundle-settings__card .form-table th {
@@ -115,16 +154,37 @@
 .bundle-panel-hint {
 	margin: 0.5rem 12px 0;
 	padding: 0.6rem 0.8rem;
-	border-inline-start: 3px solid var(--bundle-admin-accent);
-	background: rgba(34, 113, 177, 0.06);
+	border-inline-start: 3px solid var(--bundle-admin-accent-bar);
+	background: rgba(173, 122, 58, 0.08);
 	font-size: 0.85rem;
 	line-height: 1.5;
 }
 
 @media (prefers-color-scheme: dark) {
+	.bundle-settings {
+		/*
+		 * Lift the amber on dark cards (#1d2327): #d6a55c is the storefront's own
+		 * dark-mode twine — 7.11:1 on #1d2327 (AA text). The bar tone passes 3:1.
+		 */
+		--bundle-admin-accent: #d6a55c;
+		--bundle-admin-accent-bar: #d6a55c;
+	}
+
 	.bundle-settings__card {
 		border-color: #3c434a;
 		background: #1d2327;
+	}
+
+	.bundle-section + .bundle-section {
+		border-block-start-color: #3c434a;
+	}
+
+	.bundle-section__title {
+		color: #f0f0f1;
+	}
+
+	.bundle-section__desc {
+		color: #c3c4c7;
 	}
 
 	.bundle-settings__intro code {
