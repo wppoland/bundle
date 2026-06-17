@@ -215,15 +215,15 @@ final class Settings implements HasHooks
                             <tbody>
                                 <tr>
                                     <th scope="row">
-                                        <?php esc_html_e('Discount mode', 'bundle'); ?>
+                                        <label for="bundle_discount_mode"><?php esc_html_e('Discount mode', 'bundle'); ?></label>
                                         <?php echo wp_kses($this->help('bundle_help_mode', __('How the discount appears in the cart. "Single cart fee" adds one negative line ("Bundle discount −$12.00") — simplest and clearest. "Per-item" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax.', 'bundle')), $help_html); ?>
                                     </th>
                                     <td>
-                                        <select id="bundle_discount_mode" name="<?php echo esc_attr($option); ?>[discount_mode]">
+                                        <select id="bundle_discount_mode" name="<?php echo esc_attr($option); ?>[discount_mode]" aria-describedby="bundle_discount_mode_desc">
                                             <option value="fee" <?php selected($mode, 'fee'); ?>><?php esc_html_e('Single cart fee (one negative line)', 'bundle'); ?></option>
                                             <option value="per_item" <?php selected($mode, 'per_item'); ?>><?php esc_html_e('Per-item price adjustment', 'bundle'); ?></option>
                                         </select>
-                                        <p class="description"><?php esc_html_e('Choose how the bundle discount is shown when bundled items are in the cart. Most stores want the single cart fee.', 'bundle'); ?></p>
+                                        <p class="description" id="bundle_discount_mode_desc"><?php esc_html_e('Choose how the bundle discount is shown when bundled items are in the cart. Most stores want the single cart fee.', 'bundle'); ?></p>
                                     </td>
                                 </tr>
                             </tbody>
