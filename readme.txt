@@ -39,6 +39,15 @@ The plugin is developed in the open. Code, bug reports and patches live at https
 
 == Frequently Asked Questions ==
 
+= Documentation and links =
+
+* **Documentation** - https://plogins.com/bundle/docs/
+* **Plugin page** - https://plogins.com/bundle/
+* **Source code** - https://github.com/wppoland/bundle
+* **Bug reports and feature requests** - https://github.com/wppoland/bundle/issues
+* **Discussions and questions** - https://github.com/wppoland/bundle/discussions
+
+
 = Does it require WooCommerce? =
 
 Yes. WooCommerce must be installed and active.
