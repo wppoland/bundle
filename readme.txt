@@ -19,9 +19,9 @@ Bundle adds a "frequently bought together" product bundle box to your WooCommerc
 * "Add bundle to cart" adds the main product plus every linked item at once.
 * Optional bundle discount, applied either as a single cart fee or as a per-item price adjustment.
 * An optional savings line that shows the bundle total and the amount saved.
-* A `[bundle]` shortcode to place the bundle box anywhere — use `[bundle id="123"]` to target a specific product.
+* A `[bundle]` shortcode to place the bundle box anywhere, use `[bundle id="123"]` to target a specific product.
 * Editable box title, button label and discount-line label, all translatable.
-* Bundle definitions are stored as product meta — no custom database tables.
+* Bundle definitions are stored as product meta, no custom database tables.
 * Clean uninstall: removes its options and bundle definitions when deleted.
 * One small stylesheet, no JavaScript on the storefront and no jQuery. Images reserve their space so the box does not shift the layout as it loads, and it follows the visitor's dark-mode preference.
 * A "?" help bubble on every setting, reachable by keyboard, plus the box hides itself when a product has no bundle left to show.
