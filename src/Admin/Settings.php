@@ -159,7 +159,7 @@ final class Settings implements HasHooks
                                 <tr>
                                     <th scope="row">
                                         <?php esc_html_e('Enable bundles', 'bundle'); ?>
-                                        <?php echo wp_kses($this->help('bundle_help_enabled', __('Master switch. When off, no bundle box is shown anywhere and no bundle discount is applied — your products keep selling normally.', 'bundle')), $help_html); ?>
+                                        <?php echo wp_kses($this->help('bundle_help_enabled', __('Master switch. When off, no bundle box is shown anywhere and no bundle discount is applied, your products keep selling normally.', 'bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <label for="bundle_enabled">
@@ -216,7 +216,7 @@ final class Settings implements HasHooks
                                 <tr>
                                     <th scope="row">
                                         <label for="bundle_discount_mode"><?php esc_html_e('Discount mode', 'bundle'); ?></label>
-                                        <?php echo wp_kses($this->help('bundle_help_mode', __('How the discount appears in the cart. "Single cart fee" adds one negative line ("Bundle discount −$12.00") — simplest and clearest. "Per-item" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax.', 'bundle')), $help_html); ?>
+                                        <?php echo wp_kses($this->help('bundle_help_mode', __('How the discount appears in the cart. "Single cart fee" adds one negative line ("Bundle discount −$12.00"), simplest and clearest. "Per-item" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax.', 'bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <select id="bundle_discount_mode" name="<?php echo esc_attr($option); ?>[discount_mode]" aria-describedby="bundle_discount_mode_desc">

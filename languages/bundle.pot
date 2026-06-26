@@ -113,7 +113,7 @@ msgid "Enable bundles"
 msgstr ""
 
 #: src/Admin/Settings.php:162
-msgid "Master switch. When off, no bundle box is shown anywhere and no bundle discount is applied — your products keep selling normally."
+msgid "Master switch. When off, no bundle box is shown anywhere and no bundle discount is applied, your products keep selling normally."
 msgstr ""
 
 #: src/Admin/Settings.php:167
@@ -169,7 +169,7 @@ msgid "Discount mode"
 msgstr ""
 
 #: src/Admin/Settings.php:219
-msgid "How the discount appears in the cart. \"Single cart fee\" adds one negative line (\"Bundle discount −$12.00\") — simplest and clearest. \"Per-item\" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax."
+msgid "How the discount appears in the cart. \"Single cart fee\" adds one negative line (\"Bundle discount −$12.00\"), simplest and clearest. \"Per-item\" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax."
 msgstr ""
 
 #: src/Admin/Settings.php:223
@@ -259,5 +259,5 @@ msgstr ""
 #. translators: 1: total bundle price, 2: amount saved.
 #: templates/single-product/bundle-box.php:112
 #, php-format
-msgid "Bundle total <strong>%1$s</strong> — you save <strong>%2$s</strong>."
+msgid "Bundle total <strong>%1$s</strong>, you save <strong>%2$s</strong>."
 msgstr ""

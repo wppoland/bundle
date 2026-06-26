@@ -109,7 +109,7 @@ $bundle_savings = $bundle_percent > 0.0
                 <?php
                 printf(
                     /* translators: 1: total bundle price, 2: amount saved. */
-                    wp_kses_post(__('Bundle total <strong>%1$s</strong> — you save <strong>%2$s</strong>.', 'bundle')),
+                    wp_kses_post(__('Bundle total <strong>%1$s</strong>, you save <strong>%2$s</strong>.', 'bundle')),
                     wp_kses_post(wc_price($bundle_total)),
                     wp_kses_post(wc_price($bundle_savings))
                 );

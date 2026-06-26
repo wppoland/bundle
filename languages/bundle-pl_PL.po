@@ -159,10 +159,10 @@ msgstr "Włącz zestawy"
 #: src/Admin/Settings.php:162
 msgid ""
 "Master switch. When off, no bundle box is shown anywhere and no bundle "
-"discount is applied — your products keep selling normally."
+"discount is applied, your products keep selling normally."
 msgstr ""
 "Główny przełącznik. Po wyłączeniu nigdzie nie pojawia się pole zestawu i nie "
-"jest stosowany żaden rabat na zestaw — Twoje produkty sprzedają się "
+"jest stosowany żaden rabat na zestaw, Twoje produkty sprzedają się "
 "normalnie."
 
 #: src/Admin/Settings.php:167
@@ -239,12 +239,12 @@ msgstr "Tryb rabatu"
 #: src/Admin/Settings.php:219
 msgid ""
 "How the discount appears in the cart. \"Single cart fee\" adds one negative "
-"line (\"Bundle discount −$12.00\") — simplest and clearest. \"Per-item\" "
+"line (\"Bundle discount −$12.00\"), simplest and clearest. \"Per-item\" "
 "lowers the price of each bundled product instead, which suits stores that "
 "need the discount reflected on every line and in per-product tax."
 msgstr ""
 "Jak rabat pojawia się w koszyku. „Pojedyncza opłata w koszyku” dodaje jedną "
-"ujemną pozycję („Rabat na zestaw −50,00 zł”) — najprostsze i najbardziej "
+"ujemną pozycję („Rabat na zestaw −50,00 zł”), najprostsze i najbardziej "
 "przejrzyste. „Na pozycję” obniża natomiast cenę każdego produktu w zestawie, "
 "co sprawdza się w sklepach, które potrzebują odzwierciedlenia rabatu w "
 "każdej pozycji i w podatku liczonym dla produktu."
@@ -360,7 +360,7 @@ msgstr "Kup razem i zaoszczędź %s%%"
 #. translators: 1: total bundle price, 2: amount saved.
 #: templates/single-product/bundle-box.php:112
 #, php-format
-msgid "Bundle total <strong>%1$s</strong> — you save <strong>%2$s</strong>."
+msgid "Bundle total <strong>%1$s</strong>, you save <strong>%2$s</strong>."
 msgstr ""
-"Łączna cena zestawu <strong>%1$s</strong> — oszczędzasz <strong>%2$s</"
+"Łączna cena zestawu <strong>%1$s</strong>, oszczędzasz <strong>%2$s</"
 "strong>."
