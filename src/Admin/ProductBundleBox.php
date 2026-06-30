@@ -73,7 +73,7 @@ final class ProductBundleBox implements HasHooks
     public function addTab(array $tabs): array
     {
         $tabs['bundle'] = [
-            'label'    => __('Bundle', 'bundle'),
+            'label'    => __('Bundle', 'plogins-bundle'),
             'target'   => 'bundle_product_data',
             'class'    => ['show_if_simple', 'show_if_variable'],
             'priority' => 65,
@@ -102,36 +102,36 @@ final class ProductBundleBox implements HasHooks
         <div id="bundle_product_data" class="panel woocommerce_options_panel hidden">
             <?php wp_nonce_field(self::NONCE_ACTION, self::NONCE_FIELD); ?>
             <p class="bundle-panel-hint">
-                <?php esc_html_e('Link the products that are usually bought together with this one. They appear in a "frequently bought together" box on this product\'s page, and shoppers can add the whole set to the cart in one click.', 'bundle'); ?>
+                <?php esc_html_e('Link the products that are usually bought together with this one. They appear in a "frequently bought together" box on this product\'s page, and shoppers can add the whole set to the cart in one click.', 'plogins-bundle'); ?>
                 <br />
                 <?php
                 printf(
                     /* translators: %s: "Products > All Products" admin breadcrumb. */
-                    esc_html__('Tip: the product ID is shown in the URL when you edit a product, and in the ID column under %s.', 'bundle'),
-                    '<strong>' . esc_html__('Products', 'bundle') . '</strong>'
+                    esc_html__('Tip: the product ID is shown in the URL when you edit a product, and in the ID column under %s.', 'plogins-bundle'),
+                    '<strong>' . esc_html__('Products', 'plogins-bundle') . '</strong>'
                 );
                 ?>
             </p>
             <div class="options_group">
                 <p class="form-field bundle-field">
-                    <label for="bundle_items"><?php esc_html_e('Bundled product IDs', 'bundle'); ?></label>
+                    <label for="bundle_items"><?php esc_html_e('Bundled product IDs', 'plogins-bundle'); ?></label>
                     <input
                         type="text"
                         id="bundle_items"
                         name="bundle_items"
                         class="long"
                         value="<?php echo esc_attr($items); ?>"
-                        placeholder="<?php esc_attr_e('e.g. 42, 108, 256', 'bundle'); ?>"
+                        placeholder="<?php esc_attr_e('e.g. 42, 108, 256', 'plogins-bundle'); ?>"
                         inputmode="numeric"
                         autocomplete="off"
                         aria-describedby="bundle_items_desc"
                     />
                     <span class="description" id="bundle_items_desc">
-                        <?php esc_html_e('Comma-separated product IDs to sell alongside this product. Duplicates, blanks and this product\'s own ID are ignored automatically.', 'bundle'); ?>
+                        <?php esc_html_e('Comma-separated product IDs to sell alongside this product. Duplicates, blanks and this product\'s own ID are ignored automatically.', 'plogins-bundle'); ?>
                     </span>
                 </p>
                 <p class="form-field bundle-field">
-                    <label for="bundle_discount_percent"><?php esc_html_e('Bundle discount (%)', 'bundle'); ?></label>
+                    <label for="bundle_discount_percent"><?php esc_html_e('Bundle discount (%)', 'plogins-bundle'); ?></label>
                     <input
                         type="number"
                         id="bundle_discount_percent"
@@ -144,7 +144,7 @@ final class ProductBundleBox implements HasHooks
                         aria-describedby="bundle_discount_desc"
                     />
                     <span class="description" id="bundle_discount_desc">
-                        <?php esc_html_e('Optional. The percentage off the combined price when the whole bundle is added to the cart. Leave at 0 for no discount (the box still cross-sells the items). Values are clamped to 0–100.', 'bundle'); ?>
+                        <?php esc_html_e('Optional. The percentage off the combined price when the whole bundle is added to the cart. Leave at 0 for no discount (the box still cross-sells the items). Values are clamped to 0–100.', 'plogins-bundle'); ?>
                     </span>
                 </p>
             </div>

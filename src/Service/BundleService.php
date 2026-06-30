@@ -183,10 +183,10 @@ final class BundleService implements HasHooks
         $settings = $this->settings();
 
         return [
-            'box_title'  => $this->label($settings, 'box_title', __('Frequently bought together', 'bundle')),
-            'add_bundle' => $this->label($settings, 'add_label', __('Add bundle to cart', 'bundle')),
-            'fee_label'  => $this->label($settings, 'fee_label', __('Bundle discount', 'bundle')),
-            'add_failed' => $this->label($settings, 'add_failed_text', __('Some bundled products could not be added to the cart.', 'bundle')),
+            'box_title'  => $this->label($settings, 'box_title', __('Frequently bought together', 'plogins-bundle')),
+            'add_bundle' => $this->label($settings, 'add_label', __('Add bundle to cart', 'plogins-bundle')),
+            'fee_label'  => $this->label($settings, 'fee_label', __('Bundle discount', 'plogins-bundle')),
+            'add_failed' => $this->label($settings, 'add_failed_text', __('Some bundled products could not be added to the cart.', 'plogins-bundle')),
         ];
     }
 

@@ -1,10 +1,10 @@
-=== Bundle – Product Bundles for WooCommerce ===
+=== Plogins Bundle for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, product bundles, frequently bought together, bundle discount, upsell
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -28,7 +28,7 @@ Bundle adds a "frequently bought together" product bundle box to your WooCommerc
 
 Configure global behaviour under WooCommerce → Bundle. Link products and set the discount per product in the product editor's "Bundle" tab. Turn off "Show on product page" to render the box only where you drop the `[bundle]` shortcode.
 
-The plugin is developed in the open. Code, bug reports and patches live at https://github.com/wppoland/bundle.
+The plugin is developed in the open. Code, bug reports and patches live at https://github.com/wppoland/plogins-bundle.
 
 == Installation ==
 
@@ -41,11 +41,10 @@ The plugin is developed in the open. Code, bug reports and patches live at https
 
 = Documentation and links =
 
-* **Documentation** - https://plogins.com/bundle/docs/
-* **Plugin page** - https://plogins.com/bundle/
-* **Source code** - https://github.com/wppoland/bundle
-* **Bug reports and feature requests** - https://github.com/wppoland/bundle/issues
-* **Discussions and questions** - https://github.com/wppoland/bundle/discussions
+* **Documentation** - https://plogins.com/plogins-bundle/docs/
+* **Plugin page** - https://plogins.com/plogins-bundle/
+* **Source code** - https://github.com/wppoland/plogins-bundle
+* **Bug reports and feature requests** - https://github.com/wppoland/plogins-bundle/issues
 
 
 = Does it require WooCommerce? =
@@ -85,6 +84,9 @@ No. The free bundle box is server-rendered with one small stylesheet and no stor
 Bundle does not connect to any external services. It makes no remote API calls and sends no data off your site. Its only stylesheet and admin script are served from your own WordPress install (`assets/css/bundle.css`, `assets/css/admin.css` and `assets/js/admin.js`), with no third-party fonts, CDNs or analytics. All data stays in your database: global options in `bundle_settings` and `bundle_db_version`, and each product's bundle in the `_bundle_definition` post meta. The plugin sends no email.
 
 == Changelog ==
+
+= 0.2.1 =
+* Renamed to Plogins Bundle for WooCommerce for a more distinctive plugin name.
 
 = 0.2.0 =
 * Settings page laid out as cards, with a "?" help bubble explaining each option.

@@ -36,8 +36,8 @@ final class Settings implements HasHooks
     {
         $this->hookSuffix = add_submenu_page(
             'woocommerce',
-            __('Bundle Settings', 'bundle'),
-            __('Bundle', 'bundle'),
+            __('Bundle Settings', 'plogins-bundle'),
+            __('Bundle', 'plogins-bundle'),
             'manage_woocommerce',
             self::PAGE,
             [$this, 'renderPage'],
@@ -81,7 +81,7 @@ final class Settings implements HasHooks
             '<button type="button" class="bundle-help" aria-describedby="%1$s" aria-label="%2$s">?</button>'
             . '<span id="%1$s" class="bundle-help-pop" popover role="tooltip">%3$s</span>',
             esc_attr($id),
-            esc_attr__('More information', 'bundle'),
+            esc_attr__('More information', 'plogins-bundle'),
             esc_html($text),
         );
     }
@@ -134,13 +134,13 @@ final class Settings implements HasHooks
         <div class="wrap bundle-settings">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
             <p class="bundle-settings__intro">
-                <?php esc_html_e('Configure the "frequently bought together" box that lets shoppers add a product and its companions to the cart in one click. Link the companion products and set an optional discount on each product in the product editor, under the "Bundle" tab.', 'bundle'); ?>
+                <?php esc_html_e('Configure the "frequently bought together" box that lets shoppers add a product and its companions to the cart in one click. Link the companion products and set an optional discount on each product in the product editor, under the "Bundle" tab.', 'plogins-bundle'); ?>
             </p>
             <p class="bundle-settings__intro description">
                 <?php
                 printf(
                     /* translators: 1: [bundle] shortcode, 2: [bundle id="123"] shortcode. */
-                    esc_html__('Prefer to place the box yourself? Use the %1$s shortcode on any page, or %2$s to target a specific product, then turn off "Show on product page" below.', 'bundle'),
+                    esc_html__('Prefer to place the box yourself? Use the %1$s shortcode on any page, or %2$s to target a specific product, then turn off "Show on product page" below.', 'plogins-bundle'),
                     '<code>[bundle]</code>',
                     '<code>[bundle id="123"]</code>'
                 );
@@ -152,55 +152,55 @@ final class Settings implements HasHooks
 
                 <div class="bundle-settings__card">
                     <div class="bundle-section">
-                        <h2 class="bundle-section__title"><?php esc_html_e('Display', 'bundle'); ?></h2>
-                        <p class="bundle-section__desc"><?php esc_html_e('Where the bundle box appears and how much it shows. The defaults work for most stores.', 'bundle'); ?></p>
+                        <h2 class="bundle-section__title"><?php esc_html_e('Display', 'plogins-bundle'); ?></h2>
+                        <p class="bundle-section__desc"><?php esc_html_e('Where the bundle box appears and how much it shows. The defaults work for most stores.', 'plogins-bundle'); ?></p>
                         <table class="form-table" role="presentation">
                             <tbody>
                                 <tr>
                                     <th scope="row">
-                                        <?php esc_html_e('Enable bundles', 'bundle'); ?>
-                                        <?php echo wp_kses($this->help('bundle_help_enabled', __('Master switch. When off, no bundle box is shown anywhere and no bundle discount is applied, your products keep selling normally.', 'bundle')), $help_html); ?>
+                                        <?php esc_html_e('Enable bundles', 'plogins-bundle'); ?>
+                                        <?php echo wp_kses($this->help('bundle_help_enabled', __('Master switch. When off, no bundle box is shown anywhere and no bundle discount is applied, your products keep selling normally.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <label for="bundle_enabled">
                                             <input type="checkbox" id="bundle_enabled" name="<?php echo esc_attr($option); ?>[enabled]" value="1" <?php checked((bool) ($settings['enabled'] ?? false), true); ?> />
-                                            <?php esc_html_e('Show the bundle box on product pages and apply bundle discounts.', 'bundle'); ?>
+                                            <?php esc_html_e('Show the bundle box on product pages and apply bundle discounts.', 'plogins-bundle'); ?>
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
-                                        <?php esc_html_e('Show on product page', 'bundle'); ?>
-                                        <?php echo wp_kses($this->help('bundle_help_single', __('Automatically render the box just below the product summary on single product pages. Turn this off if you only want to place the box manually with the [bundle] shortcode.', 'bundle')), $help_html); ?>
+                                        <?php esc_html_e('Show on product page', 'plogins-bundle'); ?>
+                                        <?php echo wp_kses($this->help('bundle_help_single', __('Automatically render the box just below the product summary on single product pages. Turn this off if you only want to place the box manually with the [bundle] shortcode.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <label for="bundle_show_on_single">
                                             <input type="checkbox" id="bundle_show_on_single" name="<?php echo esc_attr($option); ?>[show_on_single]" value="1" <?php checked((bool) ($settings['show_on_single'] ?? true), true); ?> />
-                                            <?php esc_html_e('Render the bundle box below the product summary.', 'bundle'); ?>
+                                            <?php esc_html_e('Render the bundle box below the product summary.', 'plogins-bundle'); ?>
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
-                                        <?php esc_html_e('Show bundled items', 'bundle'); ?>
-                                        <?php echo wp_kses($this->help('bundle_help_items', __('Display each companion product with its thumbnail and price inside the box, so shoppers see exactly what they are getting. Turn off for a compact box with just the button.', 'bundle')), $help_html); ?>
+                                        <?php esc_html_e('Show bundled items', 'plogins-bundle'); ?>
+                                        <?php echo wp_kses($this->help('bundle_help_items', __('Display each companion product with its thumbnail and price inside the box, so shoppers see exactly what they are getting. Turn off for a compact box with just the button.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <label for="bundle_show_items">
                                             <input type="checkbox" id="bundle_show_items" name="<?php echo esc_attr($option); ?>[show_items]" value="1" <?php checked((bool) ($settings['show_items'] ?? true), true); ?> />
-                                            <?php esc_html_e('List the bundled products (with thumbnails) inside the box.', 'bundle'); ?>
+                                            <?php esc_html_e('List the bundled products (with thumbnails) inside the box.', 'plogins-bundle'); ?>
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
-                                        <?php esc_html_e('Show savings', 'bundle'); ?>
-                                        <?php echo wp_kses($this->help('bundle_help_savings', __('Show the bundle total and the exact amount saved (e.g. "you save $12.00"). A clear saving figure is a strong nudge to buy the whole bundle.', 'bundle')), $help_html); ?>
+                                        <?php esc_html_e('Show savings', 'plogins-bundle'); ?>
+                                        <?php echo wp_kses($this->help('bundle_help_savings', __('Show the bundle total and the exact amount saved (e.g. "you save $12.00"). A clear saving figure is a strong nudge to buy the whole bundle.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <label for="bundle_show_savings">
                                             <input type="checkbox" id="bundle_show_savings" name="<?php echo esc_attr($option); ?>[show_savings]" value="1" <?php checked((bool) ($settings['show_savings'] ?? true), true); ?> />
-                                            <?php esc_html_e('Show the bundle total and the amount saved on the bundle box.', 'bundle'); ?>
+                                            <?php esc_html_e('Show the bundle total and the amount saved on the bundle box.', 'plogins-bundle'); ?>
                                         </label>
                                     </td>
                                 </tr>
@@ -209,21 +209,21 @@ final class Settings implements HasHooks
                     </div>
 
                     <div class="bundle-section">
-                        <h2 class="bundle-section__title"><?php esc_html_e('Discount', 'bundle'); ?></h2>
-                        <p class="bundle-section__desc"><?php esc_html_e('How the bundle discount reaches the cart. Set the per-product discount itself in the product editor, under the "Bundle" tab.', 'bundle'); ?></p>
+                        <h2 class="bundle-section__title"><?php esc_html_e('Discount', 'plogins-bundle'); ?></h2>
+                        <p class="bundle-section__desc"><?php esc_html_e('How the bundle discount reaches the cart. Set the per-product discount itself in the product editor, under the "Bundle" tab.', 'plogins-bundle'); ?></p>
                         <table class="form-table" role="presentation">
                             <tbody>
                                 <tr>
                                     <th scope="row">
-                                        <label for="bundle_discount_mode"><?php esc_html_e('Discount mode', 'bundle'); ?></label>
-                                        <?php echo wp_kses($this->help('bundle_help_mode', __('How the discount appears in the cart. "Single cart fee" adds one negative line ("Bundle discount −$12.00"), simplest and clearest. "Per-item" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax.', 'bundle')), $help_html); ?>
+                                        <label for="bundle_discount_mode"><?php esc_html_e('Discount mode', 'plogins-bundle'); ?></label>
+                                        <?php echo wp_kses($this->help('bundle_help_mode', __('How the discount appears in the cart. "Single cart fee" adds one negative line ("Bundle discount −$12.00"), simplest and clearest. "Per-item" lowers the price of each bundled product instead, which suits stores that need the discount reflected on every line and in per-product tax.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
                                         <select id="bundle_discount_mode" name="<?php echo esc_attr($option); ?>[discount_mode]" aria-describedby="bundle_discount_mode_desc">
-                                            <option value="fee" <?php selected($mode, 'fee'); ?>><?php esc_html_e('Single cart fee (one negative line)', 'bundle'); ?></option>
-                                            <option value="per_item" <?php selected($mode, 'per_item'); ?>><?php esc_html_e('Per-item price adjustment', 'bundle'); ?></option>
+                                            <option value="fee" <?php selected($mode, 'fee'); ?>><?php esc_html_e('Single cart fee (one negative line)', 'plogins-bundle'); ?></option>
+                                            <option value="per_item" <?php selected($mode, 'per_item'); ?>><?php esc_html_e('Per-item price adjustment', 'plogins-bundle'); ?></option>
                                         </select>
-                                        <p class="description" id="bundle_discount_mode_desc"><?php esc_html_e('Choose how the bundle discount is shown when bundled items are in the cart. Most stores want the single cart fee.', 'bundle'); ?></p>
+                                        <p class="description" id="bundle_discount_mode_desc"><?php esc_html_e('Choose how the bundle discount is shown when bundled items are in the cart. Most stores want the single cart fee.', 'plogins-bundle'); ?></p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -231,38 +231,38 @@ final class Settings implements HasHooks
                     </div>
 
                     <div class="bundle-section">
-                        <h2 class="bundle-section__title"><?php esc_html_e('Labels &amp; wording', 'bundle'); ?></h2>
-                        <p class="bundle-section__desc"><?php esc_html_e('The words shoppers read. Leave any field blank to use the sensible default shown as a placeholder.', 'bundle'); ?></p>
+                        <h2 class="bundle-section__title"><?php esc_html_e('Labels &amp; wording', 'plogins-bundle'); ?></h2>
+                        <p class="bundle-section__desc"><?php esc_html_e('The words shoppers read. Leave any field blank to use the sensible default shown as a placeholder.', 'plogins-bundle'); ?></p>
                         <table class="form-table" role="presentation">
                             <tbody>
                                 <tr>
                                     <th scope="row">
-                                        <label for="bundle_box_title"><?php esc_html_e('Box title', 'bundle'); ?></label>
-                                        <?php echo wp_kses($this->help('bundle_help_title', __('The heading shown at the top of the bundle box. Keep it short and benefit-led, e.g. "Frequently bought together" or "Complete the set".', 'bundle')), $help_html); ?>
+                                        <label for="bundle_box_title"><?php esc_html_e('Box title', 'plogins-bundle'); ?></label>
+                                        <?php echo wp_kses($this->help('bundle_help_title', __('The heading shown at the top of the bundle box. Keep it short and benefit-led, e.g. "Frequently bought together" or "Complete the set".', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
-                                        <input type="text" id="bundle_box_title" name="<?php echo esc_attr($option); ?>[box_title]" value="<?php echo esc_attr((string) ($settings['box_title'] ?? '')); ?>" class="regular-text" placeholder="<?php esc_attr_e('Frequently bought together', 'bundle'); ?>" />
-                                        <p class="description"><?php esc_html_e('Leave blank to use the default "Frequently bought together".', 'bundle'); ?></p>
+                                        <input type="text" id="bundle_box_title" name="<?php echo esc_attr($option); ?>[box_title]" value="<?php echo esc_attr((string) ($settings['box_title'] ?? '')); ?>" class="regular-text" placeholder="<?php esc_attr_e('Frequently bought together', 'plogins-bundle'); ?>" />
+                                        <p class="description"><?php esc_html_e('Leave blank to use the default "Frequently bought together".', 'plogins-bundle'); ?></p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
-                                        <label for="bundle_add_label"><?php esc_html_e('Add-to-cart label', 'bundle'); ?></label>
-                                        <?php echo wp_kses($this->help('bundle_help_add', __('Text on the button that adds the whole bundle to the cart. An action-led label such as "Add all to cart" or "Buy the set" outperforms a generic one.', 'bundle')), $help_html); ?>
+                                        <label for="bundle_add_label"><?php esc_html_e('Add-to-cart label', 'plogins-bundle'); ?></label>
+                                        <?php echo wp_kses($this->help('bundle_help_add', __('Text on the button that adds the whole bundle to the cart. An action-led label such as "Add all to cart" or "Buy the set" outperforms a generic one.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
-                                        <input type="text" id="bundle_add_label" name="<?php echo esc_attr($option); ?>[add_label]" value="<?php echo esc_attr((string) ($settings['add_label'] ?? '')); ?>" class="regular-text" placeholder="<?php esc_attr_e('Add bundle to cart', 'bundle'); ?>" />
-                                        <p class="description"><?php esc_html_e('Leave blank to use the default "Add bundle to cart".', 'bundle'); ?></p>
+                                        <input type="text" id="bundle_add_label" name="<?php echo esc_attr($option); ?>[add_label]" value="<?php echo esc_attr((string) ($settings['add_label'] ?? '')); ?>" class="regular-text" placeholder="<?php esc_attr_e('Add bundle to cart', 'plogins-bundle'); ?>" />
+                                        <p class="description"><?php esc_html_e('Leave blank to use the default "Add bundle to cart".', 'plogins-bundle'); ?></p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
-                                        <label for="bundle_fee_label"><?php esc_html_e('Discount line label', 'bundle'); ?></label>
-                                        <?php echo wp_kses($this->help('bundle_help_fee', __('The wording of the discount line in the cart and at checkout when "Single cart fee" mode is used, e.g. "Bundle discount". Shoppers see this next to the saved amount.', 'bundle')), $help_html); ?>
+                                        <label for="bundle_fee_label"><?php esc_html_e('Discount line label', 'plogins-bundle'); ?></label>
+                                        <?php echo wp_kses($this->help('bundle_help_fee', __('The wording of the discount line in the cart and at checkout when "Single cart fee" mode is used, e.g. "Bundle discount". Shoppers see this next to the saved amount.', 'plogins-bundle')), $help_html); ?>
                                     </th>
                                     <td>
-                                        <input type="text" id="bundle_fee_label" name="<?php echo esc_attr($option); ?>[fee_label]" value="<?php echo esc_attr((string) ($settings['fee_label'] ?? '')); ?>" class="regular-text" placeholder="<?php esc_attr_e('Bundle discount', 'bundle'); ?>" />
-                                        <p class="description"><?php esc_html_e('Shown on the cart fee line (fee mode). Leave blank to use the default "Bundle discount".', 'bundle'); ?></p>
+                                        <input type="text" id="bundle_fee_label" name="<?php echo esc_attr($option); ?>[fee_label]" value="<?php echo esc_attr((string) ($settings['fee_label'] ?? '')); ?>" class="regular-text" placeholder="<?php esc_attr_e('Bundle discount', 'plogins-bundle'); ?>" />
+                                        <p class="description"><?php esc_html_e('Shown on the cart fee line (fee mode). Leave blank to use the default "Bundle discount".', 'plogins-bundle'); ?></p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -307,9 +307,9 @@ final class Settings implements HasHooks
             'show_items'     => ! empty($raw['show_items']),
             'show_savings'   => ! empty($raw['show_savings']),
             'discount_mode'  => $mode,
-            'box_title'      => $boxTitle !== '' ? $boxTitle : (string) ($defaults['box_title'] ?? __('Frequently bought together', 'bundle')),
-            'add_label'      => $addLabel !== '' ? $addLabel : (string) ($defaults['add_label'] ?? __('Add bundle to cart', 'bundle')),
-            'fee_label'      => $feeLabel !== '' ? $feeLabel : (string) ($defaults['fee_label'] ?? __('Bundle discount', 'bundle')),
+            'box_title'      => $boxTitle !== '' ? $boxTitle : (string) ($defaults['box_title'] ?? __('Frequently bought together', 'plogins-bundle')),
+            'add_label'      => $addLabel !== '' ? $addLabel : (string) ($defaults['add_label'] ?? __('Add bundle to cart', 'plogins-bundle')),
+            'fee_label'      => $feeLabel !== '' ? $feeLabel : (string) ($defaults['fee_label'] ?? __('Bundle discount', 'plogins-bundle')),
         ]);
     }
 
