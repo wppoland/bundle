@@ -1,4 +1,4 @@
-=== Plogins Bundle for WooCommerce ===
+=== Plogins Bundle - Product Bundles for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, product bundles, frequently bought together, bundle discount, upsell
 Requires at least: 6.5
